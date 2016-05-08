@@ -11,9 +11,9 @@ function A0 = makeA0(n)
     end
     
     % Rectangular Option
-        A0(fst) = zeros(length(fst),1);
-        A0(mid) = pi/2;
-        A0(nnd) = pi*ones(length(nnd),1) - pi/20 * (length(nnd):-1:1)';
+%     A0(fst) = zeros(length(fst),1);
+%     A0(mid) = pi/2;
+%     A0(nnd) = pi*ones(length(nnd),1) - pi/20 * (length(nnd):-1:1)';
     
-% Arc Option
-% A0(1:end) = (pi/n)*(0:n-1)';
+    % Arc Option
+    A0(1:end) = (pi/n)*(0:n-1)';
