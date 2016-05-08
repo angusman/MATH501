@@ -1,9 +1,11 @@
-function chainsim(N)
+function accel = chainsim(N)
 % CHAINSIM Simulate a free falling chain as a system of n-pendulums.
 % Input: N is the number of links in chain.
 %  If N = 1, single pendulum demo is run.
 %  If N = 2, double pendulum demo is run.
-%  For N > 2, solver stops when last bob is vertical.
+%  For N > 2, solver stops when last bob is vertical
+% Output: accel the accelleration of the lastbob of the sim as found by
+% polyfit.
 
 %% Implementation
 close all; shg
@@ -57,11 +59,15 @@ hold on
 plot(T,y(1:length(T),n))
 ylabel('height')
 xlabel('time')
-
 y0 = y(1,n);
 plot(T,y0-0.5*g*T.^2,'r--')
 
 legend('chain','freefall')
+
+% fitting data polynomial
+chainvect = polyfit(T,y(1:length(T),n),2);
+
+accel = 2* chainvect(1);
 
 
 
