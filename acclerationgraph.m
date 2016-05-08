@@ -8,7 +8,7 @@ y = [];
 for k = 1:range(nrange)+1
     x = [k+min(nrange)-1 x];
     y = [chainsim(k+min(nrange)-1,0) y];
-    k + min(nrange)-1
+
 end
 
 figure(4)

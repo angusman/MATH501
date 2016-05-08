@@ -70,7 +70,14 @@ if graphs == 1
     legend('chain','freefall')
 end
 % fitting data polynomial
-chainvect = polyfit(T,y(1:length(T),n),2);
+
+if rem(length(T),2) == 0
+    halfrange = 1:length(T)/2;
+else
+    halfrange = 1:(length(T) +1)/2;
+end
+
+chainvect = polyfit(T(halfrange),y(halfrange,n),2);
 
 accel = 2 * chainvect(1);
 
