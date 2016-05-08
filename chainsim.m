@@ -67,7 +67,7 @@ legend('chain','freefall')
 % fitting data polynomial
 chainvect = polyfit(T,y(1:length(T),n),2);
 
-accel = 2* chainvect(1);
+accel = 2 * chainvect(1);
 
 
 
