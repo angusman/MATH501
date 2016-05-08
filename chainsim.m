@@ -1,14 +1,18 @@
-function accel = chainsim(N)
+function accel = chainsim(N,graphs)
 % CHAINSIM Simulate a free falling chain as a system of n-pendulums.
 % Input: N is the number of links in chain.
 %  If N = 1, single pendulum demo is run.
 %  If N = 2, double pendulum demo is run.
 %  For N > 2, solver stops when last bob is vertical
+%  graphs, if graphs = 1 show graphs
+%  otherwise no graphs
 % Output: accel the accelleration of the lastbob of the sim as found by
 % polyfit.
 
 %% Implementation
-close all; shg
+if graphs == 1
+    close all; shg
+end
 % Number of pendulums
 global n g
 n = N; % number of links
@@ -40,30 +44,31 @@ theta = Y(:,1:n);
 x = cumsum(cos(theta-pi/2), 2); 
 y = cumsum(sin(theta-pi/2), 2); 
 
-% show the pendulum system
-figure(1)
-for t = 1:step:length(T)
-    plot(x(1:t,n),y(1:t,n),'-') % trail of last bob
+
+if graphs == 1
+    % show the pendulum system
+    figure(1)
+    for t = 1:step:length(T)
+        plot(x(1:t,n),y(1:t,n),'-') % trail of last bob
+        hold on
+        plot([0 x(t,1:n)],[0 y(t,1:n)],'r-o') % visual pendulum
+        hold off
+        axis(1.25*[-n n -n n])
+        axis square
+        title(['t = ' num2str(T(t))])
+        pause(.01)
+    end
+    
+    % Our second figure plots the height of the last bob vs. freefall
+    figure(2)
     hold on
-    plot([0 x(t,1:n)],[0 y(t,1:n)],'r-o') % visual pendulum
-    hold off
-    axis(1.25*[-n n -n n])
-    axis square
-    title(['t = ' num2str(T(t))])
-    pause(.01)
+    plot(T,y(1:length(T),n))
+    ylabel('height')
+    xlabel('time')
+    y0 = y(1,n);
+    plot(T,y0-0.5*g*T.^2,'r--')
+    legend('chain','freefall')
 end
-
-% Our second figure plots the height of the last bob vs. freefall
-figure(2)
-hold on
-plot(T,y(1:length(T),n))
-ylabel('height')
-xlabel('time')
-y0 = y(1,n);
-plot(T,y0-0.5*g*T.^2,'r--')
-
-legend('chain','freefall')
-
 % fitting data polynomial
 chainvect = polyfit(T,y(1:length(T),n),2);
 
